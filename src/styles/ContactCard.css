@@ -1,0 +1,102 @@
+/* Delete Modal */
+.delete-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  padding: 1.5rem;
+  z-index: 10;
+  width: 90%;
+  max-width: 300px;
+}
+
+/* Modal Content */
+.modal-content {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 16px;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+}
+
+/* Contact Card */
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.contact-photo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.contact-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.contact-info {
+  text-align: center;
+}
+
+.contact-name {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.contact-detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.contact-icon {
+  margin-right: 8px;
+}
+
+.contact-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+/* Touch device detection */
+@media (hover: none) {
+  .contact-actions {
+    opacity: 0;
+  }
+}

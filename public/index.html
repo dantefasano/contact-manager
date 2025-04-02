@@ -7,8 +7,27 @@
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="A modern React-based contact management application that helps you organize and manage your contacts efficiently. Built with React 18, featuring real-time API synchronization, responsive design, and intuitive user interface."
     />
+    <meta
+      name="keywords"
+      content="Contact Manager, React, API Integration, Contact Management, CRUD Application, React 18, Frontend Development, Contact List, Contact Organizer"
+    />
+    <meta name="author" content="Dante Fasano" />
+    <meta
+      property="og:title"
+      content="Contact Manager - Modern React Contact Management App"
+    />
+    <meta
+      property="og:description"
+      content="A modern React-based contact management application that helps you organize and manage your contacts efficiently."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://github.com/dantefasano/contact-manager"
+    />
+    <meta property="og:image" content="%PUBLIC_URL%/logo512.png" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -24,7 +43,29 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Contact Manager",
+        "description": "A modern React-based contact management application that helps you organize and manage your contacts efficiently.",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Web",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Dante Fasano"
+        },
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "softwareVersion": "1.0.0",
+        "url": "https://github.com/dantefasano/contact-manager"
+      }
+    </script>
+    <title>Contact Manager - Modern React Contact Management App</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

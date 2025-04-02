@@ -1,70 +1,109 @@
-# Getting Started with Create React App
+# Contact Manager Project with API Integration
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> A modern React-based contact management application that helps you organize and manage your contacts efficiently. Built with React 18, featuring real-time API synchronization, responsive design, and intuitive user interface.
 
-## Available Scripts
+[![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-14.x-orange.svg)](https://nodejs.org/)
 
-In the project directory, you can run:
+**Keywords:** Contact Manager, React, API Integration, Contact Management, CRUD Application, React 18, Frontend Development, Contact List, Contact Organizer
 
-### `npm start`
+## Screenshot
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![Contact Manager Application Interface](docs/images/contact-manager-screenshot.jpg)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Table of Contents
 
-### `npm test`
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+- [License](#license)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
 
-### `npm run build`
+- Create new contacts with detailed information (name, email, phone, address)
+- View all contacts in a clean, organized list
+- Update existing contact information
+- Delete contacts with confirmation modal
+- Upload and manage contact photos
+- Contacts are synchronized with a backend API
+- Responsive layout optimized for both desktop and mobile views
+- User-friendly interface with a modern design
+- Form validation for all input fields
+- Loading states and error handling
+- Accessibility features for better user experience
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Tech Stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Frontend:**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  - React 18.2.0
+  - React Router for navigation
+  - CSS3 for styling
+  - Axios for API calls
 
-### `npm run eject`
+- **Development Tools:**
+  - npm for package management
+  - Git for version control
+  - VS Code (recommended IDE)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Prerequisites
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- [Node.js](https://nodejs.org/) (version 14.X.X or higher)
+- npm (included with Node.js)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Installation
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+To get started, follow these steps:
 
-## Learn More
+1. Clone this repository:
+   ```sh
+   git clone https://github.com/dantefasano/contact-manager.git
+   ```
+2. Install the project dependencies:
+   ```sh
+   cd contact-manager
+   npm install
+   ```
+3. Run the development server:
+   ```sh
+   npm start
+   ```
+4. Open your browser and navigate to http://localhost:3000 to view the application.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Usage
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+After opening the Contact Manager app in your browser, you'll be presented with a modern, intuitive interface. You can:
 
-### Code Splitting
+- View all your contacts in a clean list format
+- Add new contacts by clicking the "+" button and filling out the contact form
+- Edit existing contacts by clicking the edit icon
+- Delete contacts by clicking the trash icon (with confirmation)
+- Upload contact photos
+- View contact details including email, phone, and address
+- Click on email addresses to open your email client
+- Click on phone numbers to initiate calls
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## API Documentation
 
-### Analyzing the Bundle Size
+This project uses the 4Geeks Academy Contact API:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Base URL: https://playground.4geeks.com/contact
+- Endpoints:
+  - GET /agendas/{agenda_slug}/contacts - Get all contacts
+  - POST /agendas/{agenda_slug}/contacts - Create a new contact
+  - PUT /agendas/{agenda_slug}/contacts/{contact_id} - Update a contact
+  - DELETE /agendas/{agenda_slug}/contacts/{contact_id} - Delete a contact
 
-### Making a Progressive Web App
+For more detailed API documentation, visit: https://playground.4geeks.com/contact/docs
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## License
 
-### Advanced Configuration
+This project is licensed under the MIT License. See the [LICENSE file](LICENSE) for more details.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Made with ❤️ by [Dante Fasano](https://github.com/dantefasano/)
