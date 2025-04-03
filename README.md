@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-14.x-orange.svg)](https://nodejs.org/)
 
-**Keywords:** Contact Manager, React, API Integration, Contact Management, CRUD Application, React 18, Frontend Development, Contact List, Contact Organizer
+**Keywords:** Contact Manager, React, API Integration, Contact Management, CRUD Application, React 18, Frontend Development, Contact List, Contact Organizer, Cloudinary, 4Geeks Academy, Responsive Design
 
 ## Screenshot
 
@@ -16,11 +16,13 @@
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Setup & Installation](#setup--installation)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
+- [Development](#development)
 - [License](#license)
+- [Contact](#contact)
 
 ## Features
 
@@ -39,40 +41,49 @@
 ## Tech Stack
 
 - **Frontend:**
-
   - React 18.2.0
   - React Router for navigation
   - CSS3 for styling
   - Axios for API calls
+  - Cloudinary for image hosting
 
 - **Development Tools:**
   - npm for package management
   - Git for version control
   - VS Code (recommended IDE)
 
-## Prerequisites
+## Project Structure
+```
+src/
+├── components/     # Reusable UI components
+├── context/       # React context providers
+├── services/      # API and external service integrations
+├── styles/        # CSS stylesheets
+├── views/         # Page components
+└── ...
+```
 
-- [Node.js](https://nodejs.org/) (version 14.X.X or higher)
-- npm (included with Node.js)
-
-## Installation
-
-To get started, follow these steps:
+## Setup & Installation
 
 1. Clone this repository:
    ```sh
    git clone https://github.com/dantefasano/contact-manager.git
    ```
-2. Install the project dependencies:
+
+2. Create a `.env` file in the root directory:
+   ```env
+   REACT_APP_API_URL=https://playground.4geeks.com/contact
+   REACT_APP_AGENDA_SLUG=your_agenda_slug
+   ```
+
+3. Install dependencies and run:
    ```sh
    cd contact-manager
    npm install
-   ```
-3. Run the development server:
-   ```sh
    npm start
    ```
-4. Open your browser and navigate to http://localhost:3000 to view the application.
+
+4. Open your browser at http://localhost:3000
 
 ## Usage
 
@@ -100,9 +111,26 @@ This project uses the 4Geeks Academy Contact API:
 
 For more detailed API documentation, visit: https://playground.4geeks.com/contact/docs
 
+## Development
+
+### Available Scripts
+- `npm start` - Runs the app in development mode
+- `npm test` - Launches the test runner
+- `npm run build` - Builds the app for production
+
+### Troubleshooting
+- **API Connection Issues**: Check your `.env` configuration
+- **Photo Upload Problems**: Verify Cloudinary settings
+- **Build Errors**: Try clearing node_modules and reinstalling dependencies
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE file](LICENSE) for more details.
+
+## Contact
+
+- GitHub: [@dantefasano](https://github.com/dantefasano)
+- Project Link: [https://github.com/dantefasano/contact-manager](https://github.com/dantefasano/contact-manager)
 
 ---
 

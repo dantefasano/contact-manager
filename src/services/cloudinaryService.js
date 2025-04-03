@@ -7,4 +7,4 @@ const cld = new Cloudinary({
   },
 });
 
-export { cld };
+export { cld }; 

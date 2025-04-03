@@ -1,0 +1,28 @@
+/* Contact List */
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+/* Mobile Swipe Actions */
+@media (max-width: 768px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  .contact-list {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* Touch device detection */
+@media (hover: none) {
+  .contact-actions {
+    opacity: 0;
+  }
+} 

@@ -18,19 +18,20 @@ export const ContactProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_URL = "https://playground.4geeks.com/contact";
+  const API_URL = process.env.REACT_APP_API_URL;
+  const AGENDA_SLUG = process.env.REACT_APP_AGENDA_SLUG;
 
   // Create or get agenda
-  const ensureAgenda = async () => {
+  const ensureAgenda = useCallback(async () => {
     try {
       // First try to get the agenda
-      const response = await fetch(`${API_URL}/agendas/fasan`);
+      const response = await fetch(`${API_URL}/agendas/${AGENDA_SLUG}`);
       if (response.ok) {
         return true;
       }
 
       // If not found, create it
-      const createResponse = await fetch(`${API_URL}/agendas/fasan`, {
+      const createResponse = await fetch(`${API_URL}/agendas/${AGENDA_SLUG}`, {
         method: "POST",
       });
       return createResponse.ok;
@@ -38,7 +39,7 @@ export const ContactProvider = ({ children }) => {
       console.error("Agenda error:", err);
       return false;
     }
-  };
+  }, [API_URL, AGENDA_SLUG]);
 
   // Fetch all contacts
   const fetchContacts = useCallback(async () => {
@@ -51,9 +52,9 @@ export const ContactProvider = ({ children }) => {
 
       console.log(
         "Attempting to fetch contacts from:",
-        `${API_URL}/agendas/fasan/contacts`
+        `${API_URL}/agendas/${AGENDA_SLUG}/contacts`
       );
-      const response = await fetch(`${API_URL}/agendas/fasan/contacts`);
+      const response = await fetch(`${API_URL}/agendas/${AGENDA_SLUG}/contacts`);
       console.log("Response status:", response.status);
       console.log(
         "Response headers:",
@@ -88,50 +89,39 @@ export const ContactProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []); // Now we can safely remove contacts from dependencies
+  }, [API_URL, AGENDA_SLUG, ensureAgenda]);
 
   // Create a new contact
   const createContact = async (contactData) => {
     try {
       let processedData = { ...contactData };
+      console.log("Initial contact data:", contactData);
 
       // Handle photo upload if exists
-      if (contactData.photo && contactData.photo.startsWith("data:")) {
+      if (contactData.photo) {
+        console.log("Photo exists, attempting upload:", contactData.photo.substring(0, 50) + "...");
         try {
-          // Convert base64 to file
-          const response = await fetch(contactData.photo);
-          const blob = await response.blob();
-          const file = new File([blob], "photo.jpg", { type: "image/jpeg" });
-
-          // Upload to Cloudinary
-          const photoUrl = await uploadPhoto(file);
+          const photoUrl = await uploadPhoto(contactData.photo);
+          console.log("Photo uploaded successfully, URL:", photoUrl);
           processedData.photo = photoUrl;
         } catch (err) {
           console.error("Error uploading photo:", err);
-          // If upload fails, continue without photo
+          throw new Error("Failed to upload contact photo");
         }
       }
 
       // Create the contact
-      console.log("Attempting to create contact:", processedData);
-      const response = await fetch(`${API_URL}/agendas/fasan/contacts`, {
+      console.log("Sending contact data to API:", processedData);
+      const response = await fetch(`${API_URL}/agendas/${AGENDA_SLUG}/contacts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: processedData.name,
-          email: processedData.email,
-          phone: processedData.phone,
-          address: processedData.address,
-          photo: processedData.photo || "",
-        }),
+        body: JSON.stringify(processedData),
       });
-      console.log("Response status:", response.status);
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error response:", errorData);
         throw new Error(
           `Failed to create contact: ${response.status} ${
             errorData.detail || response.statusText
@@ -140,16 +130,9 @@ export const ContactProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      console.log("Success response:", data);
-
-      // Add the photo URL to the contact data before adding to state
-      const contactWithPhoto = {
-        ...data,
-        photo: processedData.photo || "",
-      };
-
-      setContacts((prev) => [...prev, contactWithPhoto]);
-      return contactWithPhoto;
+      console.log("Contact created successfully:", data);
+      setContacts((prev) => [...prev, data]);
+      return data;
     } catch (err) {
       console.error("Create error:", err);
       setError(err.message);
@@ -161,44 +144,36 @@ export const ContactProvider = ({ children }) => {
   const updateContact = async (id, contactData) => {
     try {
       let processedData = { ...contactData };
+      console.log("Initial update data:", contactData);
 
-      // Handle photo upload if exists
+      // Handle photo upload if exists and is new
       if (contactData.photo && contactData.photo.startsWith("data:")) {
+        console.log("New photo detected, attempting upload:", contactData.photo.substring(0, 50) + "...");
         try {
-          // Convert base64 to file
-          const response = await fetch(contactData.photo);
-          const blob = await response.blob();
-          const file = new File([blob], "photo.jpg", { type: "image/jpeg" });
-
-          // Upload to Cloudinary
-          const photoUrl = await uploadPhoto(file);
+          const photoUrl = await uploadPhoto(contactData.photo);
+          console.log("Photo uploaded successfully, URL:", photoUrl);
           processedData.photo = photoUrl;
         } catch (err) {
           console.error("Error uploading photo:", err);
-          // If upload fails, keep existing photo
+          throw new Error("Failed to upload contact photo");
         }
       }
 
       // Update the contact
-      console.log("Attempting to update contact:", id, processedData);
-      const response = await fetch(`${API_URL}/agendas/fasan/contacts/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: processedData.name,
-          email: processedData.email,
-          phone: processedData.phone,
-          address: processedData.address,
-          photo: processedData.photo || "",
-        }),
-      });
-      console.log("Response status:", response.status);
+      console.log("Sending update data to API:", processedData);
+      const response = await fetch(
+        `${API_URL}/agendas/${AGENDA_SLUG}/contacts/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(processedData),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error response:", errorData);
         throw new Error(
           `Failed to update contact: ${response.status} ${
             errorData.detail || response.statusText
@@ -207,19 +182,11 @@ export const ContactProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      console.log("Success response:", data);
-
-      // Update the contact with the photo URL
-      const updatedContact = {
-        ...data,
-        photo: processedData.photo || "",
-      };
-
+      console.log("Contact updated successfully:", data);
       setContacts((prev) =>
-        prev.map((contact) => (contact.id === id ? updatedContact : contact))
+        prev.map((contact) => (contact.id === id ? data : contact))
       );
-
-      return updatedContact;
+      return data;
     } catch (err) {
       console.error("Update error:", err);
       setError(err.message);
@@ -244,7 +211,7 @@ export const ContactProvider = ({ children }) => {
       }
 
       console.log("Attempting to delete contact:", id);
-      const response = await fetch(`${API_URL}/agendas/fasan/contacts/${id}`, {
+      const response = await fetch(`${API_URL}/agendas/${AGENDA_SLUG}/contacts/${id}`, {
         method: "DELETE",
       });
       console.log("Response status:", response.status);
