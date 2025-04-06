@@ -72,14 +72,25 @@ export const ContactProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      console.log("Success response:", data);
+      console.log("Raw API response:", data);
+      console.log("Contacts array:", data.contacts);
 
-      // Process contacts to ensure photo URLs are properly handled
-      const processedContacts = (data.contacts || []).map((contact) => ({
-        ...contact,
-        photo: contact.photo || "", // Use API photo or empty string
-      }));
+      // Process contacts to ensure all fields are properly handled
+      const processedContacts = (data.contacts || []).map((contact) => {
+        console.log("Processing contact:", contact);
+        const processed = {
+          id: contact.id || "",
+          name: contact.name || "",
+          email: contact.email || "",
+          phone: contact.phone || "",
+          address: contact.address || "",
+          photo: contact.photo || ""
+        };
+        console.log("Processed contact:", processed);
+        return processed;
+      });
 
+      console.log("Final processed contacts:", processedContacts);
       setContacts(processedContacts);
       setError(null);
     } catch (err) {
@@ -183,10 +194,23 @@ export const ContactProvider = ({ children }) => {
 
       const data = await response.json();
       console.log("Contact updated successfully:", data);
+      
+      // Create the updated contact with all fields including the photo
+      const updatedContact = {
+        ...data,
+        photo: processedData.photo || data.photo || "",
+        name: processedData.name || data.name || "",
+        email: processedData.email || data.email || "",
+        phone: processedData.phone || data.phone || "",
+        address: processedData.address || data.address || ""
+      };
+      
+      // Update the contacts state with the complete contact data
       setContacts((prev) =>
-        prev.map((contact) => (contact.id === id ? data : contact))
+        prev.map((contact) => (contact.id === id ? updatedContact : contact))
       );
-      return data;
+      
+      return updatedContact;
     } catch (err) {
       console.error("Update error:", err);
       setError(err.message);

@@ -8,10 +8,6 @@
 
 **Keywords:** Contact Manager, React, API Integration, Contact Management, CRUD Application, React 18, Frontend Development, Contact List, Contact Organizer, Cloudinary, 4Geeks Academy, Responsive Design
 
-## Screenshot
-
-![Contact Manager Application Interface](docs/images/contact-manager-screenshot.jpg)
-
 ## Table of Contents
 
 - [Features](#features)
@@ -20,6 +16,7 @@
 - [Setup & Installation](#setup--installation)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
+- [Known Limitations](#known-limitations)
 - [Development](#development)
 - [License](#license)
 - [Contact](#contact)
@@ -30,7 +27,7 @@
 - View all contacts in a clean, organized list
 - Update existing contact information
 - Delete contacts with confirmation modal
-- Upload and manage contact photos
+- ⚠️ **Photo Upload Limitation**: While the application includes photo upload functionality using Cloudinary, please note that the 4Geeks Contact API does not support storing photo URLs. As a result, uploaded photos will not persist after page refresh. This is a limitation of the API rather than the application itself.
 - Contacts are synchronized with a backend API
 - Responsive layout optimized for both desktop and mobile views
 - User-friendly interface with a modern design
@@ -70,11 +67,17 @@ src/
    git clone https://github.com/dantefasano/contact-manager.git
    ```
 
-2. Create a `.env` file in the root directory:
+2. Create a `.env` file in the root directory with the following variables:
    ```env
    REACT_APP_API_URL=https://playground.4geeks.com/contact
    REACT_APP_AGENDA_SLUG=your_agenda_slug
    ```
+   
+   If you don't have access to the `.env` file, you can use these default values:
+   - `REACT_APP_API_URL`: The API URL is public and can be used as is
+   - `REACT_APP_AGENDA_SLUG`: You can use any unique string (e.g., "my-contacts" or "personal-agenda")
+   
+   Note: The agenda slug will be created automatically when you first use the application.
 
 3. Install dependencies and run:
    ```sh
@@ -111,27 +114,33 @@ This project uses the 4Geeks Academy Contact API:
 
 For more detailed API documentation, visit: https://playground.4geeks.com/contact/docs
 
+## Known Limitations
+
+After testing the API with Postman, we discovered that:
+1. The API only supports basic contact fields (name, email, phone, address)
+2. Additional fields like photos are not stored by the API
+3. The API returns a simplified contact object without any extra fields
+
+We attempted various solutions including different field names and formats, but the API's response structure remains fixed. This is why photos don't persist after page refresh.
+
 ## Development
 
 ### Available Scripts
-- `npm start` - Runs the app in development mode
-- `npm test` - Launches the test runner
-- `npm run build` - Builds the app for production
-
-### Troubleshooting
-- **API Connection Issues**: Check your `.env` configuration
-- **Photo Upload Problems**: Verify Cloudinary settings
-- **Build Errors**: Try clearing node_modules and reinstalling dependencies
+- `npm start`
+- `npm test`
+- `npm run build`
+- `npm run eject`
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE file](LICENSE) for more details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact
 
-- GitHub: [@dantefasano](https://github.com/dantefasano)
-- Project Link: [https://github.com/dantefasano/contact-manager](https://github.com/dantefasano/contact-manager)
+**Dante Fasano** - [GitHub](https://github.com/dantefasano) - [LinkedIn](https://www.linkedin.com/in/dantefasano)
+
+Project Link: [https://github.com/dantefasano/contact-manager](https://github.com/dantefasano/contact-manager)
 
 ---
 
-Made with ❤️ by [Dante Fasano](https://github.com/dantefasano/)
+Made with ❤️ by Dante Fasano
