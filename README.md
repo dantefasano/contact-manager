@@ -67,17 +67,16 @@ src/
    git clone https://github.com/dantefasano/contact-manager.git
    ```
 
-2. Create a `.env` file in the root directory with the following variables:
+2. (Optional) Create a `.env` file in the root directory with custom values:
    ```env
    REACT_APP_API_URL=https://playground.4geeks.com/contact
-   REACT_APP_AGENDA_SLUG=your_agenda_slug
+   REACT_APP_AGENDA_SLUG=your-unique-agenda-name
+   REACT_APP_CLOUDINARY_CLOUD_NAME=your-cloud-name
+   REACT_APP_CLOUDINARY_UPLOAD_PRESET=your-upload-preset
    ```
-   
-   If you don't have access to the `.env` file, you can use these default values:
-   - `REACT_APP_API_URL`: The API URL is public and can be used as is
-   - `REACT_APP_AGENDA_SLUG`: You can use any unique string (e.g., "my-contacts" or "personal-agenda")
-   
-   Note: The agenda slug will be created automatically when you first use the application.
+   If you don't create a `.env` file, the application will use default values:
+   - API URL: https://playground.4geeks.com/contact
+   - Agenda Slug: default-agenda
 
 3. Install dependencies and run:
    ```sh
@@ -87,6 +86,11 @@ src/
    ```
 
 4. Open your browser at http://localhost:3000
+
+The application will automatically:
+- Create the agenda if it doesn't exist
+- Handle any errors gracefully
+- Show helpful error messages if something goes wrong
 
 ## Usage
 

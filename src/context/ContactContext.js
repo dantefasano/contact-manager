@@ -9,6 +9,10 @@ import { uploadPhoto, deletePhoto } from "../services/photoService";
 
 const ContactContext = createContext();
 
+// Default values if environment variables are not set
+const DEFAULT_API_URL = "https://playground.4geeks.com/contact";
+const DEFAULT_AGENDA_SLUG = "default-agenda";
+
 export const useContact = () => {
   return useContext(ContactContext);
 };
@@ -18,25 +22,40 @@ export const ContactProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_URL = process.env.REACT_APP_API_URL;
-  const AGENDA_SLUG = process.env.REACT_APP_AGENDA_SLUG;
+  // Use environment variables if available, otherwise use defaults
+  const API_URL = process.env.REACT_APP_API_URL || DEFAULT_API_URL;
+  const AGENDA_SLUG = process.env.REACT_APP_AGENDA_SLUG || DEFAULT_AGENDA_SLUG;
 
   // Create or get agenda
   const ensureAgenda = useCallback(async () => {
     try {
       // First try to get the agenda
       const response = await fetch(`${API_URL}/agendas/${AGENDA_SLUG}`);
+      
+      // If agenda exists, return true
       if (response.ok) {
         return true;
       }
 
-      // If not found, create it
+      // If agenda doesn't exist (404) or any other error, try to create it
       const createResponse = await fetch(`${API_URL}/agendas/${AGENDA_SLUG}`, {
         method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
-      return createResponse.ok;
+
+      // If creation was successful or agenda already exists
+      if (createResponse.ok || createResponse.status === 400) {
+        return true;
+      }
+
+      // If creation failed for other reasons
+      const errorData = await createResponse.json();
+      throw new Error(errorData.detail || 'Failed to create agenda');
     } catch (err) {
       console.error("Agenda error:", err);
+      setError(err.message);
       return false;
     }
   }, [API_URL, AGENDA_SLUG]);
@@ -44,59 +63,28 @@ export const ContactProvider = ({ children }) => {
   // Fetch all contacts
   const fetchContacts = useCallback(async () => {
     try {
+      setLoading(true);
+      setError(null);
+      
       // First ensure we have an agenda
       const hasAgenda = await ensureAgenda();
       if (!hasAgenda) {
-        throw new Error("Failed to create or access agenda");
+        throw new Error("Failed to create or access agenda. Please check your agenda slug in the .env file.");
       }
 
-      console.log(
-        "Attempting to fetch contacts from:",
-        `${API_URL}/agendas/${AGENDA_SLUG}/contacts`
-      );
+      // Now fetch contacts
       const response = await fetch(`${API_URL}/agendas/${AGENDA_SLUG}/contacts`);
-      console.log("Response status:", response.status);
-      console.log(
-        "Response headers:",
-        Object.fromEntries(response.headers.entries())
-      );
-
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Error response:", errorData);
-        throw new Error(
-          `Failed to fetch contacts: ${response.status} ${
-            errorData.detail || response.statusText
-          }`
-        );
+        throw new Error("Failed to fetch contacts");
       }
-
+      
       const data = await response.json();
-      console.log("Raw API response:", data);
-      console.log("Contacts array:", data.contacts);
-
-      // Process contacts to ensure all fields are properly handled
-      const processedContacts = (data.contacts || []).map((contact) => {
-        console.log("Processing contact:", contact);
-        const processed = {
-          id: contact.id || "",
-          name: contact.name || "",
-          email: contact.email || "",
-          phone: contact.phone || "",
-          address: contact.address || "",
-          photo: contact.photo || ""
-        };
-        console.log("Processed contact:", processed);
-        return processed;
-      });
-
-      console.log("Final processed contacts:", processedContacts);
-      setContacts(processedContacts);
-      setError(null);
+      // The API returns an object with a contacts array
+      setContacts(data.contacts || []);
     } catch (err) {
-      console.error("Fetch error:", err);
+      console.error("Fetch contacts error:", err);
       setError(err.message);
-      setContacts([]);
+      setContacts([]); // Ensure contacts is always an array
     } finally {
       setLoading(false);
     }
